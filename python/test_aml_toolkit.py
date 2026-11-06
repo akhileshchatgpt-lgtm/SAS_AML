@@ -23,7 +23,7 @@ class AMLToolkitTests(unittest.TestCase):
 
     def test_duplicate_identifier_is_flagged(self):
         result = validate_transactions([dict(BASE), dict(BASE, customer_id="C2")])
-        self.assertIn("DUPLICATE_TRANSACTION_ID", result[1]["reasons"])
+        self.assertIn("DUPLICATE_TRANSACTION_ID", result[0]["reasons"])
 
     def test_invalid_date_is_flagged(self):
         result = validate_transactions([dict(BASE, transaction_date="not-a-date")])

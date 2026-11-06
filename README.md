@@ -1,41 +1,71 @@
-# SAS AML – Open Source AML Analytics Toolkit
+# Independent AML Analytics Toolkit
 
-An independent learning and development project exploring Anti-Money Laundering (AML) analytics, transaction monitoring concepts, data quality checks, and ETL workflows using synthetic data.
+An educational, open-source demonstration of AML data engineering and transaction-monitoring concepts using synthetic transaction data.
 
-## Project purpose
+> **Status:** Early-stage project. Python examples and tests are included; SAS and Oracle SQL examples are provided but have not been executed in a licensed SAS or Oracle environment. This is not a production AML system.
 
-This repository is intended to demonstrate practical AML and data-engineering concepts through original, reusable examples. It is not a copy of SAS AML software and does not contain proprietary SAS code, employer materials, customer information, or confidential configurations.
+## What is included
 
-## Planned areas
+| Area | Example |
+|---|---|
+| Synthetic data | `data/sample_transactions.csv` |
+| SAS | Data-quality checks and illustrative review queue in `sas/aml_data_quality.sas` |
+| Oracle SQL | Customer summaries, cross-border summaries, duplicate and amount checks in `sql/transaction_analysis_oracle.sql` |
+| Python | Standard-library toolkit in `python/aml_toolkit.py` |
+| Tests | Python unit tests in `python/test_aml_toolkit.py` |
+| Scenario notes | `docs/aml_scenario_design.md` |
 
-- Synthetic transaction data for demonstrations
-- Transaction data quality validation
-- SQL-based transaction analysis
-- Illustrative AML monitoring scenarios
-- SAS programming examples written independently
-- Documentation of assumptions, test cases, and limitations
+## Quick start (Python)
 
-## Planned repository structure
+Requires Python 3.10+ and no third-party dependencies. From the repository root:
 
-```text
-data/       Synthetic sample data
-sas/        Independent SAS examples
-sql/        SQL analysis examples
-docs/       Scenario design and technical notes
-examples/   Demonstrations and usage examples
+```bash
+python python/aml_toolkit.py --input data/sample_transactions.csv --output-dir output
 ```
 
-## Current status
+Optional illustrative threshold:
 
-**Initial setup.** Documentation is being established. Features listed above are planned and should not be considered implemented until their files and tests are added.
+```bash
+python python/aml_toolkit.py --threshold 250000
+```
 
-## Responsible use
+The command creates:
+- `output/data_quality_exceptions.json`
+- `output/demo_review_queue.json`
+- `output/customer_summary.json`
 
-- Use synthetic or properly licensed public datasets only.
-- Do not upload customer, personal, employer, or other confidential data.
-- Do not include proprietary SAS AML source code, product binaries, or internal configuration.
-- Treat example monitoring rules as educational demonstrations, not production-ready financial-crime controls.
+Run tests:
 
-## Disclaimer
+```bash
+cd python
+python -m unittest -v
+```
 
-This is an independent community/learning project. It is not affiliated with, sponsored by, or endorsed by SAS Institute or any financial institution. SAS and SAS AML are trademarks or products of their respective owners.
+A GitHub Actions workflow runs the Python unit tests on relevant pushes and pull requests.
+
+## SAS example
+
+Open `sas/aml_data_quality.sas` in a SAS environment. Update the CSV path in the `PROC IMPORT` step to the actual location accessible to the SAS session. The program separates data-quality exceptions, deduplicates valid transaction IDs, and creates a demonstration review queue.
+
+## Oracle SQL example
+
+See `sql/transaction_analysis_oracle.sql`. Create and load a demonstration table named `AML_DEMO_TRANSACTIONS` with columns matching the CSV header before running the queries.
+
+## Demonstration rules and limitations
+
+The sample threshold of INR 250,000 and the HIGH customer-risk flag are illustrative parameters only. They are not legal reporting thresholds, regulatory interpretations, or validated detection rules. Cross-border activity is not inherently suspicious. The sample data is synthetic and must not be used to infer real-world risk.
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Contributions should be original, tested, explainable, and use synthetic or appropriately licensed data.
+
+## Responsible use and disclaimer
+
+- Never upload customer, account, payment, personal, employer, or client-confidential data.
+- Do not upload proprietary SAS AML source code, product binaries, internal configurations, or employer-owned materials.
+- This repository is independent and is not affiliated with, sponsored by, or endorsed by SAS Institute or any financial institution.
+- This toolkit is for education and software demonstration only. It is not legal, compliance, or financial advice and is not suitable for production decisions without institutional validation, governance, security review, and human oversight.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
